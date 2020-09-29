@@ -1,9 +1,9 @@
 {
     "data": [{
         "style": "grid",
-        "category": "常用",
+        "category": "Biasanya digunakan",
         "sites": [{
-            "title": "精选",
+            "title": "Unggulan",
             "url": "https://www.myquark.cn/?qk_biz=navi&qk_module=jingxuan",
             "description": "夸克精选优质站点",
             "icon": "https://gw.alicdn.com/L1/723/1573135337/a1/f9/3e/a1f93eee47f8d9ab7f8406a91e9f2270.png"
@@ -13,9 +13,9 @@
             "description": "发现夸克好功能",
             "icon": "https://gw.alicdn.com/L1/723/1574219046/76/50/d8/7650d81ebe9582f836a0dc9053b6717b.png"
         }, {
-            "title": "书签",
+            "title": "Penanda buku",
             "url": "http://www.myquark.cn?qk_biz=bookmark_history&qk_module=bookmark",
-            "description": "添加你的书签页至首页导航",
+            "description": "Tambahkan halaman bookmark Anda ke navigasi beranda",
             "icon": "https://gw.alicdn.com/L1/723/1572349695/7e/c0/ad/7ec0ade1fc83f2ab7714875c4fb85404.png"
         }, {
             "title": "拍照搜题",

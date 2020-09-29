@@ -50,7 +50,7 @@ require(['jquery'], function ($) {
 	};
 
 	var settingsFn = function (storage) {
-		this.storage = { engines: "quark", bookcolor: "black", searchHistory: true };
+		this.storage = { engines: "google", bookcolor: "black", searchHistory: true };
 		this.storage = $.extend({}, this.storage, storage);
 	}
 	settingsFn.prototype = {
@@ -189,7 +189,7 @@ require(['jquery'], function ($) {
 				}
 			},
 			error: function () {
-				callback.error && callback.error('请求失败！');
+				callback.error && callback.error('Permintaan gagal!');
 			},
 			complete: function () {
 				callback.complete && callback.complete();
@@ -207,7 +207,7 @@ require(['jquery'], function ($) {
 	var bookMarkFn = function (ele, options) {
 		this.$ele = $(ele);
 		this.options = {
-			data: [{ "name": "精选", "url": "choice()", "icon": "icon/discover.png" }, { "name": "微博", "url": "https://weibo.com", "icon": "icon/weibo.png" }, { "name": "Bilibili", "url": "https://m.bilibili.com", "icon": "icon/bilibilibog.png" }, { "name": "知乎", "url": "https://www.zhihu.com", "icon": "icon/zhihu.png" }, { "name": "淘宝", "url": "https://m.taobao.com", "icon": "icon/taobao.png" }, { "name": "贴吧", "url": "https://tieba.baidu.com", "icon": "icon/tieba.png" }, { "name": "IT之家", "url": "https://m.ithome.com", "icon": "icon/ithome.png" }, { "name": "网易", "url": "https://3g.163.com", "icon": "icon/netease.png" }, { "name": "热榜", "url": "https://tophub.today", "icon": "icon/tophub.png" }, { "name": "导航", "url": "https://www.pp93.com/m", "icon": "icon/pp93.png" }],
+			data: [{ "name": "Temukan", "url": "choice()", "icon": "icon/discover.png" }, { "name": "Facebook", "url": "https://m.facebook.com", "icon": "icon/facebook.png" }, { "name": "Youtube", "url": "https://youtube.com", "icon": "icon/youtube.png" }, { "name": "Instagram", "url": "https://instagram.com ", "icon": "icon/instagram.png" }, { "name": "Twitter", "url": "https://twitter.com", "icon": "icon/twitter.png" }, { "name": "Brainly", "url": "https://brainly.co.id", "icon": "icon/brainly.png" }, { "name": "Wikipedia", "url": "https://wikipedia.org", "icon": "icon/wikipedia.png" }, { "name": "CNN Indonesia", "url": "https://cnnindonesia.com", "icon": "icon/cnnid.png" }, { "name": "Yandex", "url": "https://yandex.com", "icon": "icon/yandex.png" }, { "name": "Anime ID", "url": "https://t.me/s/AnimeDownloadID", "icon": "icon/anime.png" }],
 		};
 		this.options = $.extend({}, this.options, options);
 		this.init();
@@ -287,17 +287,17 @@ require(['jquery'], function ($) {
 						$('#app').append(`<div class="page-bg"></div>
 						<div class="page-addbook">
 							<ul class="addbook-choice">
-								<li class="current">站点</li>
+								<li class="current">Situs</li>
 								<!-- <li>书签</li>
 								<li>历史</li> -->
 								<span class="active-span"></span>
 							</ul>
 							<div class="addbook-content">
 								<div class="addbook-sites">
-								<input type="text" class="addbook-input addbook-url" placeholder="输入网址" value="http://" />
-								<input type="text" class="addbook-input addbook-name" placeholder="输入网站名" />
-									<div id="addbook-upload">点击选择图标</div>
-									<div class="addbook-ok">确认添加</div>
+								<input type="text" class="addbook-input addbook-url" placeholder="Masukkan URL" value="http://" />
+								<input type="text" class="addbook-input addbook-name" placeholder="Masukkan nama situs" />
+									<div id="addbook-upload">Klik ikon pilih</div>
+									<div class="addbook-ok">Konfirmasi tambahkan</div>
 								</div>
 								<div class="bottom-close"></div>
 							</div>
@@ -664,17 +664,16 @@ require(['jquery'], function ($) {
 			var has_char = escape(wd).indexOf("%u");
 			has_char < 0 ? $(".shortcut2").show() : $(".shortcut3").show();
 			$.ajax({
-				url: "https://suggestion.baidu.com/su",
+				url: "http://suggestqueries.google.com/complete/search?client=firefox&output=toolbar&hl=id&q=" + wd,
 				type: "GET",
 				dataType: "jsonp",
-				data: { wd: wd, cb: "sug" },
 				timeout: 5000,
-				jsonpCallback: "sug",
+				dataType: "jsonp",
 				success: function (res) {
 					if ($(that).val() !== wd) {
 						return;
 					}
-					var data = res.s;
+					var data = res[1];
 					var isStyle = $(".suggestion").html();
 					var html = "";
 					for (var i = data.length; i > 0; i--) {
@@ -682,7 +681,7 @@ require(['jquery'], function ($) {
 						if (isStyle === "") {
 							style = "animation: fadeInDown both .5s " + (i - 1) * 0.05 + 's"';
 						}
-						html += '<li style="' + style + '"><div>' + data[i - 1].replace(wd, '<b>' + wd + '</b>') + "</div><span></span></li>";
+						html += '<li style="' + style + '"><div>' + data[i - 1] + "</div><span></span></li>";
 					}
 					$(".suggestion").show().html(html).scrollTop($(".suggestion")[0].scrollHeight);
 				}
@@ -789,8 +788,8 @@ require(['jquery'], function ($) {
 			} else {
 				location.href = {
 					baidu: "https://m.baidu.com/s?wd=%s",
-					quark: "https://quark.sm.cn/s?q=%s",
 					google: "https://www.google.com/search?q=%s",
+					quark: "https://quark.sm.cn/s?q=%s",
 					bing: "https://cn.bing.com/search?q=%s",
 					sm: "https://m.sm.cn/s?q=%s",
 					haosou: "https://m.so.com/s?q=%s",
@@ -804,15 +803,20 @@ require(['jquery'], function ($) {
 	//精选页面
 	function choice() {
 		// 构建HTML
-		var data = { "常用": [{ "hl": "百度", "shl": "百度一下你就知道", "img": "baidu", "url": "m.baidu.com" }, { "hl": "腾讯", "shl": "手机腾讯网", "img": "qq", "url": "xw.qq.com" }, { "hl": "新浪", "shl": "联通世界的超级平台", "img": "sina", "url": "sina.cn" }, { "hl": "谷歌", "shl": "最大的搜索引擎", "img": "google", "url": "www.google.com.hk" }, { "hl": "搜狐", "shl": "懂手机更懂你", "img": "sina", "url": "m.sohu.com" }, { "hl": "网易", "shl": "各有态度", "img": "netease", "url": "3g.163.com" }, { "hl": "起点中文网", "shl": "精彩小说大全", "img": "qidian", "url": "m.qidian.com" }, { "hl": "淘宝", "shl": "淘我喜欢", "img": "taobao", "url": "m.taobao.com" }, { "hl": "京东", "shl": "多好快省品质生活", "img": "jd", "url": "m.jd.com" }, { "hl": "百度贴吧", "shl": "最大的中文社区", "img": "tieba", "url": "c.tieba.baidu.com" }, { "hl": "12306", "shl": "你离世界只差一张票", "img": "12306", "url": "www.12306.cn/mormhweb/" }, { "hl": "飞猪", "shl": "阿里旅行再升级", "img": "flypig", "url": "www.fliggy.com" }, { "hl": "查快递", "shl": "快递查询", "img": "kuaidi", "url": "yz.m.sm.cn/s?from=wy279236&q=%E6%9F%A5%E5%BF%AB%E9%80%92" }, { "hl": "优酷", "shl": "热门视频全面覆盖", "img": "youku", "url": "www.youku.com" }, { "hl": "爱奇艺", "shl": "中国领先的视频门户", "img": "iqiyi", "url": "m.iqiyi.com" }, { "hl": "斗鱼", "shl": "每个人的直播平台", "img": "douyu", "url": "m.douyu.com" }, { "hl": "虎牙", "shl": "中国领先的互动直播平台", "img": "huya", "url": "m.huya.com" }, { "hl": "美团", "shl": "吃喝玩乐全都有", "img": "meituan", "url": "i.meituan.com" }, { "hl": "小米", "shl": "小米官网", "img": "xiaomi", "url": "m.mi.com" }, { "hl": "58同城", "shl": "让生活更简单", "img": "tongcheng", "url": "m.58.com" }, { "hl": "九游", "shl": "发现更多好游戏", "img": "game_9", "url": "a.9game.cn" }, { "hl": "虎扑", "shl": "最篮球的世界", "img": "hupu", "url": "m.hupu.com" }], "科技": [{ "hl": "知乎", "shl": "知识分享社区", "img": "zhihu", "url": "www.zhihu.com" }, { "hl": "36kr", "shl": "互联网创业资讯", "img": "kr36", "url": "36kr.com" }, { "hl": "少数派", "shl": "高质量应用推荐", "img": "sspai", "url": "sspai.com" }, { "hl": "爱范儿", "shl": "泛科技媒体", "img": "ifanr", "url": "www.ifanr.com" }, { "hl": "ZEALER", "shl": "电子产品评测网站", "img": "zealer", "url": "m.zealer.com" }, { "hl": "瘾科技", "shl": "科技新闻和测评", "img": "engadget", "url": "cn.engadget.com" }, { "hl": "虎嗅网", "shl": "科技媒体", "img": "huxiu", "url": "m.huxiu.com" }, { "hl": "品玩", "shl": "有品好玩的科技", "img": "pingwest", "url": "www.pingwest.com" }, { "hl": "简书", "shl": "优质原创的内容社区", "img": "jianshu", "url": "jianshu.com" }, { "hl": "V2EX", "shl": "关于分享和探索的地方", "img": "v2ex", "url": "www.v2ex.com" }], "生活": [{ "hl": "豆瓣", "shl": "一个神奇的社区", "img": "douban", "url": "m.douban.com" }, { "hl": "轻芒杂志", "shl": "生活兴趣杂志", "img": "qingmang", "url": "qingmang.me/magazines/" }, { "hl": "ONE", "shl": "韩寒监制", "img": "one", "url": "m.wufazhuce.com" }, { "hl": "蚂蜂窝", "shl": "旅游攻略社区", "img": "mafengwo", "url": "m.mafengwo.cn" }, { "hl": "小红书", "shl": "可以买到国外的好东西", "img": "xiaohongshu", "url": "www.xiaohongshu.com" }, { "hl": "什么值得买", "shl": "应该能省点钱吧", "img": "smzdm", "url": "m.smzdm.com" }, { "hl": "淘票票", "shl": "不看书，就看几场电影吧", "img": "taopiaopiao", "url": "dianying.taobao.com" }, { "hl": "下厨房", "shl": "是男人就学做几道菜", "img": "xiachufang", "url": "m.xiachufang.com" }, { "hl": "ENJOY", "shl": "高端美食团购", "img": "enjoy", "url": "enjoy.ricebook.com" }], "工具": [{ "hl": "豌豆荚设计", "shl": "发现最优美的应用", "img": "wandoujia", "url": "m.wandoujia.com/award" }, { "hl": "喜马拉雅听", "shl": "音频分享平台", "img": "ximalaya", "url": "m.ximalaya.com" }, { "hl": "第2课堂", "shl": "守护全国2亿青少年健康成长", "img": "2-class", "url": "m.2-class.com" }, { "hl": "Mozilla", "shl": "学习web开发的最佳实践", "img": "mozilla", "url": "developer.mozilla.org/zh-CN" }, { "hl": "网易公开课", "shl": "人chou就要多学习", "img": "netease_edu_study", "url": "m.open.163.com" }, { "hl": "石墨文档", "shl": "可多人实时协作的云端文档", "img": "sm", "url": "shimo.im" }] },
+		var data = {"Favorit": [{ "hl": "Facebook", "shl": "Facebook adalah sebuah layanan jejaring sosial", "img": "facebook", "url": "m.facebook.com" }, { "hl": "Youtube", "shl": "Youtube sebuah situs web berbagi video", "img": "youtube", "url": "youtube.com" }, { "hl": "Anime ID", "shl": "Download Anime Terbaru dengan subtitle Indonesia", "img": "anime", "url": "t.me/s/AnimeDownloadID" }],
+		"Sosial": [{ "hl": "Facebook", "shl": "Facebook adalah sebuah layanan jejaring sosial", "img": "facebook", "url": "m.facebook.com" }, { "hl": "Kaskus", "shl": "Forum diskusi hobi, rumah ribuan komunitas dan pusat jual beli barang hobi di Indonesia.", "img": "kaskus", "url": "m.kaskus.co.id" }, { "hl": "Twitter", "shl": "Layanan jejaring sosial dan mikroblog daring", "img": "twitter", "url": "m.twitter.com" }, { "hl": "Instagram", "shl": "Sosial media untuk berbagi foto dan video", "img": "twitter", "url": "instagram.com" }, { "hl": "Youtube", "shl": "Youtube sebuah situs web berbagi video", "img": "youtube", "url": "youtube.com" }],
+		"Berita": [{ "hl": "Tribunnews", "shl": "Tribunnews Mobile menyajikan berita terkini Indonesia", "img": "tribunnews", "url": "tribunnews.com" }, { "hl": "Detik", "shl": "ndeks berita terkini dan terbaru hari ini", "img": "detik", "url": "detik.com" }, { "hl": "Kompas", "shl": "Berita Indonesia dan Dunia Terkini Hari Ini", "img": "kompas", "url": "kompas.com" }, { "hl": "Liputan6", "shl": "Berita hari ini Indonesia dan Dunia, kabar terbaru terkini", "img": "liputan6", "url": "liputan6.com" }, { "hl": "Merdeka", "shl": "Berita Politik, Ekonomi, Hukum, Kriminal, Olahraga, Sepak Bola, Teknologi, Otomotif, Artis di Indonesia dan Dunia.", "img": "merdeka", "url": "merdeka.com" }, { "hl": "Jawapos", "shl": "Berita terkini Indonesia, Internasional Seputar Politik, Ekonomi, Entertainment, Sepak Bola, Bulutangkis dan Berita Sekitar Anda.", "img": "jawapos", "url": "jawapos.com" }, { "hl": "Okezone", "shl": "Okezone Portal Berita Online Indonesia | Berita Terbaru Hari Ini Terkini Terhangat | Nasional Internasional Politik Ekonomi Olahraga Kesehatan Selebritis.", "img": "okezone", "url": "okezone.com" }, { "hl": "Tempo", "shl": "Situs Berita Terkini Indonesia, yang Menyajikan Berita Hari Ini, Mengenai Politik, Hukum, Nasional, Dunia, Bisnis, Bola, Seleb Hingga Travel.", "img": "tempo", "url": "tempo.co.id" }],
+		"Alat": [{ "hl": "Github", "shl": "GitHub adalah tempat aman tempat lebih dari 50 juta pengembang menemukan, berbagi, dan membangun perangkat lunak yang lebih baik", "img": "github", "url": "github.com" }, { "hl": "Gitlab", "shl": "GitLab adalah sebuah manajer repositori Git berbasis web dengan fitur wiki dan pelacakan masalah, menggunakan lisensi sumber terbuka", "img": "gitlab", "url": "gitlab.com" }]},
 			html = '<div class="page-bg"></div><div class="page-choice"><div class="page-content"><ul class="choice-ul">',
-			tabHtml = '<li class="current">捷径</li>',
+			tabHtml = '<li class="current">Cuaca</li>',
 			contentHtml = `<li class="choice-cut swiper-slide">
-			<div class="list h2"><a class="flex-1 content weather" href="https://quark.sm.cn/s?q=天气"><div>访问中</div><div></div><div></div></a><a class="flex-right content trivia" style="background-image:linear-gradient(148deg, rgb(0, 188, 150) 2%, rgb(129, 239, 201) 98%)"><div class="hl back-hl">今日冷知识</div><div class="shl" style="text-align: center;left: 15px;right: 15px;font-size: 12px;"></div><div class="cmp-icon" style="right: 20px; bottom: 0px; width: 62px; height: 54px; background-image: url(https://gw.alicdn.com/L1/723/1578466791/b3/f4/94/b3f494c724631d436989a4b7569952df.png);"></div></a></div>
+			<div class="list h2"><a class="flex-1 content weather" href="https://wttr.in/` + app.location + `"><div>Mengecek</div><div></div><div></div></a><a class="flex-right content trivia" style="background-image:linear-gradient(148deg, rgb(0, 188, 150) 2%, rgb(129, 239, 201) 98%)"><div class="hl back-hl">Hari ini</div><div class="shl" style="text-align: center;left: 15px;right: 15px;font-size: 12px;"></div><div class="cmp-icon" style="right: 20px; bottom: 0px; width: 62px; height: 54px; background-image: url(https://gw.alicdn.com/L1/723/1578466791/b3/f4/94/b3f494c724631d436989a4b7569952df.png);"></div></a></div>`
+			/* We dont need these
+
 			<div class="list h3">
 				<div class="flex-left">
-					<div class="list cmp-flex"><a href="https://quark.sm.cn/s?q=NBA"><div class="content" style="background-image:linear-gradient(-36deg, rgb(0, 88, 178) 0%, rgb(102, 158, 214) 99%)"><div class="hl">NBA</div><div class="cmp-icon" style="left: 60px; top: 28px; width: 34px; height: 61px; background-image: url(https://image.uc.cn/s/uae/g/3o/broccoli/resource/201912/6abef9b0-1837-11ea-ae2f-d1f91872b195.png);"></div></div></a></div>
-					<div class="list cmp-flex"><a href="https://broccoli.uc.cn/apps/pneumonia/routes/index"><div class="content" style="background-image:linear-gradient(136deg, rgb(97, 71, 183) 0%, rgb(132, 113, 196) 100%)"><div style="left:10px" class="hl">新肺炎动态</div><div class="cmp-icon" style="bottom: 0px; width: 47px; height: 45px; background-image: url(https://gw.alicdn.com/L1/723/1579592073/31/78/ef/3178efce546d72e6f0772755ff1020cb.png);"></div></div></a></div>
+					<div class="list cmp-flex"><a href="https://google.com/search?q=NBA"><div class="content" style="background-image:linear-gradient(-36deg, rgb(0, 88, 178) 0%, rgb(102, 158, 214) 99%)"><div class="hl">NBA</div><div class="cmp-icon" style="left: 60px; top: 28px; width: 34px; height: 61px; background-image: url(https://image.uc.cn/s/uae/g/3o/broccoli/resource/201912/6abef9b0-1837-11ea-ae2f-d1f91872b195.png);"></div></div></a></div>
+					<div class="list cmp-flex"><a href="https://www.coronatracker.com/country/indonesia/"><div class="content" style="background-image:linear-gradient(136deg, rgb(97, 71, 183) 0%, rgb(132, 113, 196) 100%)"><div style="left:10px" class="hl">Corona Tracker</div><div class="cmp-icon" style="bottom: 0px; width: 47px; height: 45px; background-image: url(https://gw.alicdn.com/L1/723/1579592073/31/78/ef/3178efce546d72e6f0772755ff1020cb.png);"></div></div></a></div>
 				</div>
 				<a class="flex-1 content" href="https://quark.sm.cn/s?q=热搜&tab=quark" style="background-image:linear-gradient(135deg, rgb(34, 34, 80) 1%, rgb(60, 60, 89) 100%)"><div class="hl relative">热搜榜</div><div class="news-list"></div></a>
 			</div>
@@ -822,6 +826,7 @@ require(['jquery'], function ($) {
 			<div class="list"><a class="flex-left content" style="background-image:linear-gradient(136deg, rgb(255, 81, 81) 0%, rgb(255, 111, 88) 100%)" href="https://quark.sm.cn/api/rest?method=learning_mode.home&format=html&schema=v2"><div class="hl">夸克学习</div><div class="cmp-icon" style="top: 44.5px; width: 42.5px; height: 45.5px; background-image: url(https://image.uc.cn/s/uae/g/3o/broccoli/resource/201912/c69a6570-2265-11ea-ad50-cbf7fc3a7d59.png);"></div></a><a class="flex-1 content" href="https://xw.qq.com" style="background-image:linear-gradient(to right bottom, #becce9, #98b1cf)"><p class="hl" style="left: 76px;top: 30px;">腾讯新闻</p><p class="shl" style="left: 76px;top: 51px;">新闻</p><div class="cmp-icon" style="left: 20px; top: 23px; width: 46px; height: 46px; background-image: url(https://image.uc.cn/s/uae/g/3o/broccoli/resource/201910/b56c1ef0-f007-11e9-bbee-8910d21fa281.png);"></div></a></div>
 			<div class="list"><a class="flex-1 content" href="https://quark.sm.cn/api/rest?format=html&method=lawservice.home&schema=v2" style="background-image:linear-gradient(136deg, rgb(38, 85, 248) 0%, rgb(20, 152, 230) 100%)"><p class="hl">夸克法律检索</p><p class="shl">专业权威法律检索</p><div class="cmp-icon" style="right: 19px; top: 21px; width: 80px; height: 70px; background-image: url(https://image.uc.cn/s/uae/g/3o/broccoli/resource/201912/80869b60-1835-11ea-ae2f-d1f91872b195.png);"></div></a><a class="flex-right content" href="https://quark.sm.cn/s?q=垃圾分类" style="background-image:linear-gradient(to right bottom, #7cecc6, #15b695)"><div class="hl">垃圾分类</div><div class="cmp-icon" style="right: 22px; top: 45px; width: 55px; height: 45px; background-image: url(https://image.uc.cn/s/uae/g/3o/broccoli/resource/201910/d0b3d560-f005-11e9-bbee-8910d21fa281.png);"></div></a></div>
 			</li>`;
+			*/
 
 		$.each(data, function (i, n) {
 			tabHtml += "<li>" + i + "</li>";
@@ -833,7 +838,7 @@ require(['jquery'], function ($) {
 		});
 
 		// HTML添加到APP
-		$('#app').append(html + tabHtml + '<span class="active-span"></span></ul><div class="choice-swipe"><ul class="swiper-wrapper"><div style="position:absolute;text-align:center;top:50%;width:100%;margin-top:-64px;color:#444">正在加载页面中...</div></ul></div><div class="bottom-close"></div></div></div>');
+		$('#app').append(html + tabHtml + '<span class="active-span"></span></ul><div class="choice-swipe"><ul class="swiper-wrapper"><div style="position:absolute;text-align:center;top:50%;width:100%;margin-top:-64px;color:#444">Memuat halaman...</div></ul></div><div class="bottom-close"></div></div></div>');
 
 		setTimeout(function () {
 			$(".page-bg").addClass("animation");
@@ -891,80 +896,42 @@ require(['jquery'], function ($) {
 
 			// 天气
 			$.ajax({
-				url: "https://jsonp.afeld.me/?callback=weather&url=https%3A%2F%2Fai.sm.cn%2Fquark%2F1%2Fapi%3Fformat%3Djson%26method%3Dweather",
+				url: "https://jsonp.afeld.me/?url=https%3A%2F%2Fwttr.in%2F" + app.location + "%3FmnTC0%26lang%3Did%26format%3Dj1",
 				type: "get",
 				dataType: "jsonp",
 				success: function (res) {
-					var data = res.data;
-					var color1 = data.color1;
-					var color2 = data.color2;
-					var location = data.location;
-					var temp = data.temp;
-					var air = data.air;
-					var weather = data.weather;
+					var data = res.current_condition[0];
+					var color1 = null;
+					var color2 = null;
+					var location = app.location.charAt(0).toUpperCase() + app.location.slice(1);
+					var temp = data.temp_C;
+					var air = data.observation_time;
+					var weather = data.lang_id[0].value;
 					var html = '<div>' + temp + '</div><div>' + weather + '</div><div>' + location + ' · ' + air + '</div><div class="cmp-icon" id="lottie-box" style="background-image: url(' + data.lottie + ');"></div>';
 					$('.weather').html(html).css("background-image", "linear-gradient(-33deg," + color1 + " 0%," + color2 + " 99%)");
+					$('.trivia').html('<div class="hl back-hl">' + res.weather[0].hourly[0].lang_id[0].value + '</div><div class="shl" style="text-align: center;left: 15px;right: 15px;font-size: 12px;"></div><div class="cmp-icon" style="right: 20px; bottom: 0px; width: 62px; height: 54px; background-image: url(https://gw.alicdn.com/L1/723/1578466791/b3/f4/94/b3f494c724631d436989a4b7569952df.png);"></div>')
 				}
 			})
 
 			// 热搜榜 | 今日高分影荐 | 知乎热榜
+			/*  This code will result ERR_ABORTED 426
+				Suggest me for replace newsapi in issues github tab
 			$.ajax({
-				url: "https://jsonp.afeld.me/?url=https%3A%2F%2Fai.sm.cn%2Fquark%2F1%2Fapi%3Fformat%3Djson%26method%3Dnewchosen",
+				url: "https://jsonp.afeld.me/?url=https%3A%2F%2Fnewsapi.org%2Fv2%2Ftop-headlines%3Fcountry%3Did%26apiKey%3D",
 				type: "get",
 				dataType: "jsonp",
 				success: function (res) {
-					var data = res.data;
+					var data = res.articles;
+					var html = '';
 					for (var i = 0, l = data.length; i < l; i++) {
-						if (data[i].name === "今日冷知识") {
-							$('.trivia').attr('href', data[i].link);
-							$('.trivia').find('.shl').text(data[i].value.subtitle);
-						} else if (data[i].name === "热搜榜") {
-							var html = '';
-							for (var ii = 0, ll = data[i].value.length; ii < ll; ii++) {
-								html += '<div class="news-item"><div class="news-item-count">' + (ii + 1) + '</div><div class="news-item-title">' + data[i].value[ii].title + '</div><div class="news-item-hot">' + data[i].value[ii].hot + '</div></div>';
-							}
-							$('.news-list').html(html);
-						} else if (data[i].name === "今日高分影荐") {
-							var html = '';
-							for (var ii = 0, ll = data[i].value.content.length; ii < ll; ii++) {
-								html += '<div class="video-preview swiper-slide"><div class="video-title">' + data[i].value.content[ii].title + '</div><div class="video-time">' + data[i].value.content[ii].duration + '</div><div class="video-poster" style="background-image: url(' + data[i].value.content[ii].img + ');"></div></div>';
-							}
-							$('.video-list').find('.swiper-wrapper').html(html);
-							require(['Swiper'], function (Swiper) {
-								var swiper = new Swiper('.video-swipe', {
-									loop: true,
-									autoplay: {
-										delay: 5000,
-										disableOnInteraction: false,
-									}
-								});
-							})
-						} else if (data[i].name === "知乎热榜") {
-							var html = '';
-							for (var ii = 0, ll = data[i].value.length; ii < ll; ii++) {
-								html += '<div class="audio-item swiper-slide"><div class="audio-item-icon"></div><div class="audio-item-title">' + data[i].value[ii].title + '</div></div>';
-							}
-							$('.audio-list').find('.swiper-wrapper').html(html);
-							require(['Swiper'], function (Swiper) {
-								var swiper = new Swiper('.audio-swipe', {
-									allowTouchMove: false,
-									height: 54,
-									direction: 'vertical',
-									slidesPerView: 2,
-									slidesPerGroup: 2,
-									loop: true,
-									autoplay: {
-										delay: 5000,
-										disableOnInteraction: false,
-									},
-								});
-							})
-						}
+						html += '<div class="news-item"><div class="news-item-count">' + (i + 1) + '</div><div class="news-item-title">' + data[i].title + '</div><div class="news-item-hot">' + data[i].author + '</div></div>';
 					}
-
+					$('.news-list').html(html);
 				}
-			});
+			}); 
+			*/
 
+			/*
 			// 今日份壁纸
 			$.ajax({
 				url: "https://jsonp.afeld.me/?callback=&url=https%3A%2F%2Fcn.bing.com%2FHPImageArchive.aspx%3Fformat%3Djs%26cc%3Djp%26idx%3D0%26n%3D1",
@@ -978,6 +945,7 @@ require(['jquery'], function ($) {
 					});
 				}
 			});
+			*/
 
 		})
 	}
@@ -990,8 +958,8 @@ require(['jquery'], function ($) {
 			location.href = "x:bm?sort=default";
 		}
 	}).longPress(() => {
-		var data = [{ "title": "搜索引擎", "type": "select", "value": "engines", "data": [{ "t": "夸克搜索", "v": "quark" }, { "t": "跟随Via浏览器", "v": "via" }, { "t": "百度搜索", "v": "baidu" }, { "t": "谷歌搜索", "v": "google" }, { "t": "必应搜索", "v": "bing" }, { "t": "神马搜索", "v": "sm" }, { "t": "好搜搜索", "v": "haosou" }, { "t": "搜狗搜索", "v": "sogou" }, { "t": "自定义", "v": "diy" }] }, { "title": "设置壁纸", "value": "wallpaper" }, { "title": "设置LOGO", "value": "logo" }, { "title": "恢复默认壁纸和LOGO", "value": "delLogo" }, { "title": "图标颜色", "type": "select", "value": "bookcolor", "data": [{ "t": "深色图标", "v": "black" }, { "t": "浅色图标", "v": "white" }] }, { "title": "主页样式细圆", "type": "checkbox", "value": "styleThin" }, { "title": "夜间模式", "type": "checkbox", "value": "nightMode" }, { "title": "记录搜索历史", "type": "checkbox", "value": "searchHistory" }, { "type": "hr" }, { "title": "导出主页数据", "value": "export" }, { "title": "导入主页数据", "value": "import" }, { "type": "hr" }, { "title": "Github", "value": "openurl", "description": "https://github.com/liumingye/quarkHomePage" }, { "title": "关于", "description": "当前版本：" + app.version }];
-		var html = '<div class="page-settings"><div class="set-header"><div class="set-back"></div><p class="set-logo">主页设置</p></div><ul class="set-option-from">';
+		var data = [{ "title": "Mesin Pencari", "type": "select", "value": "engines", "data": [{ "t": "Google", "v": "google" }, { "t": "Bawaan", "v": "via" }, { "t": "Quark", "v": "quark" }, { "t": "Baidu", "v": "baidu" }, { "t": "Bing", "v": "bing" }, { "t": "Shenma", "v": "sm" }, { "t": "Haosou", "v": "haosou" }, { "t": "Sogou", "v": "sogou" }, { "t": "Sesuaikan", "v": "diy" }] }, { "title": "Atur wallpaper", "value": "wallpaper" }, { "title": "Atur Logo", "value": "logo" }, { "title": "Pulihkan wallpaper dan Logo", "value": "delLogo" }, { "title": "Warna ikon", "type": "select", "value": "bookcolor", "data": [{ "t": "Ikon Gelap", "v": "black" }, { "t": "Ikon Terang", "v": "white" }] }, { "title": "Homepage berbentuk bulat tipis", "type": "checkbox", "value": "styleThin" }, { "title": "Mode malam", "type": "checkbox", "value": "nightMode" }, { "title": "Rekam riwayat pencarian", "type": "checkbox", "value": "searchHistory" }, { "type": "hr" }, { "title": "Ekspor data beranda", "value": "export" }, { "title": "Impor data beranda", "value": "import" }, { "type": "hr" }, { "title": "Github", "value": "openurl", "description": "https://github.com/AyraHikari/MyViaHome" }, { "title": "Versi", "description": "Versi Sekarang:" + app.version }];
+		var html = '<div class="page-settings"><div class="set-header"><div class="set-back"></div><p class="set-logo">Pengaturan beranda</p></div><ul class="set-option-from">';
 		for (var json of data) {
 			if (json.type === 'hr') {
 				html += `<li class="set-hr"></li>`;
@@ -1078,18 +1046,18 @@ require(['jquery'], function ($) {
 				console.log(store.get('bookMark'));
 				oInput.select();
 				document.execCommand("Copy");
-				alert('已复制到剪贴板，请粘贴保存文件。');
+				alert('Itu telah disalin ke clipboard, harap tempel dan simpan file.');
 				oInput.remove();
 			} else if (value === "import") {
-				var data = prompt("在这粘贴主页数据");
+				var data = prompt("Tempel data beranda di sini");
 				try {
 					data = JSON.parse(data);
 					store.set("bookMark", data.bookMark);
 					store.set("setData", data.setData);
-					alert("导入成功!");
+					alert("Berhasil diimpor!");
 					location.reload();
 				} catch (e) {
-					alert("导入失败!");
+					alert("Impor gagal!");
 				}
 			} else if (evt.target.className !== 'set-select' && $this.find('.set-select').length > 0) {
 				$.fn.openSelect = function () {
@@ -1114,7 +1082,7 @@ require(['jquery'], function ($) {
 				item = dom.parent().data("value"),
 				value = dom.val();
 			if (item === "engines" && value === "diy") {
-				var engines = prompt("输入搜索引擎网址，（用“%s”代替搜索字词）");
+				var engines = prompt("Masukkan URL mesin telusur, (gunakan '%s' sebagai ganti istilah penelusuran)");
 				console.log(engines);
 				if (engines) {
 					settings.set('diyEngines', engines);
