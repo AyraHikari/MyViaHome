@@ -16,13 +16,18 @@ This is my version from quarkHomePage
 2. Change default home page to https://ayrahikari.github.io/MyViaHome
 3. Save and try
 
+# What changes
+- Translated
+- Bookmark and etc updated
+- Using google queries for search bar
+- Using new weather API
+- Some column was deleted
+
 # Update plan
 1. Search History
 2. Wallpaper Library
 3. Night mode
 4. Can add preset bookmarks
-# Icon source
-* Pure light rain icon pack
 # Online address (Indonesian version)
 [https://ayrahikari.github.io/MyViaHome](https://ayrahikari.github.io/MyViaHome)
 # Thanks for the open source project
